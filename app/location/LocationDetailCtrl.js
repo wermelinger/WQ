@@ -8,9 +8,17 @@ var app;
                 this.$location = $location;
                 this.$routeParams = $routeParams;
                 this.openWeatherService = openWeatherService;
-                var mapDiv = document.getElementById("mapForLocation");
-                this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, mapDiv);
+                this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, this.OnWeatherFetched);
             }
+            LocationDetailCtrl.prototype.OnWeatherFetched = function (weather) {
+                var elementForMap = document.getElementById("mapForLocation");
+                var opts = {
+                    center: new google.maps.LatLng(weather.latitude, weather.longitude),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoom: 8
+                };
+                var map = new google.maps.Map(elementForMap, opts);
+            };
             LocationDetailCtrl.$inject = ["$location", "$routeParams", "openWeatherService"];
             return LocationDetailCtrl;
         })();

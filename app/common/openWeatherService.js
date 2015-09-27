@@ -19,7 +19,7 @@ var app;
                 });
                 return location;
             };
-            OpenWeatherService.prototype.getCurrentWeather = function (locationName, elementForMap) {
+            OpenWeatherService.prototype.getCurrentWeather = function (locationName, onWeatherFetchedCallback) {
                 var _this = this;
                 var weather = new app.domain.CurrentWeather();
                 this.$resource("http://api.openweathermap.org/data/2.5/weather?q=" + locationName).get(function (data) {
@@ -28,15 +28,8 @@ var app;
                     weather.longitude = data.coord.lon;
                     weather.latitude = data.coord.lat;
                     weather.weather = new app.domain.Weather(data.main.temp + _this.kelvinToCelsiusFactor, data.main.pressure, data.main.humidity, data.main.temp_min + _this.kelvinToCelsiusFactor, data.main.temp_max + _this.kelvinToCelsiusFactor, data.weather[0].icon);
-                    // Update Google map
-                    var opts = {
-                        center: new google.maps.LatLng(-34.397, 150.644),
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        zoom: 8
-                    };
-                    opts.center.lat = function () { return weather.latitude; };
-                    opts.center.lng = function () { return weather.longitude; };
-                    var map = new google.maps.Map(elementForMap, opts);
+                    // Notify callback
+                    onWeatherFetchedCallback(weather);
                 });
                 return weather;
             };

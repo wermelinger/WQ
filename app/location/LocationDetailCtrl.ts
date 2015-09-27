@@ -16,8 +16,18 @@ module app.location {
 		constructor(private $location: ng.ILocationService, 
 					private $routeParams : IProductParams,
 					private openWeatherService : app.common.OpenWeatherService) {
-			var mapDiv = document.getElementById("mapForLocation");
-			this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, mapDiv);
+			this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, this.OnWeatherFetched);
+		}
+		
+		private OnWeatherFetched(weather : app.domain.CurrentWeather) {
+			var elementForMap = document.getElementById("mapForLocation");
+			var opts: google.maps.MapOptions = {
+				center: new google.maps.LatLng(weather.latitude, weather.longitude),
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				zoom: 8
+			};
+
+			var map = new google.maps.Map(elementForMap, opts);
 		}
 	}
 	

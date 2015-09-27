@@ -25,6 +25,7 @@ var app;
                 this.$resource("http://api.openweathermap.org/data/2.5/weather?q=" + locationName).get(function (data) {
                     // Update Weather data
                     weather.name = data.name;
+                    weather.flagimage = data.sys.country.toLowerCase();
                     weather.longitude = data.coord.lon;
                     weather.latitude = data.coord.lat;
                     weather.weather = new app.domain.Weather(data.main.temp + _this.kelvinToCelsiusFactor, data.main.pressure, data.main.humidity, data.main.temp_min + _this.kelvinToCelsiusFactor, data.main.temp_max + _this.kelvinToCelsiusFactor, data.weather[0].icon);

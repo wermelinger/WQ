@@ -30,6 +30,7 @@ module app.common {
 			this.$resource("http://api.openweathermap.org/data/2.5/weather?q=" + locationName).get(data => {
 					// Update Weather data
 					weather.name = data.name;
+					weather.flagimage = data.sys.country.toLowerCase();
 					weather.longitude = data.coord.lon;
 					weather.latitude = data.coord.lat;
 					weather.weather = new app.domain.Weather(

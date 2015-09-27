@@ -5,6 +5,13 @@ var app;
         var CurrentWeather = (function () {
             function CurrentWeather() {
             }
+            Object.defineProperty(CurrentWeather.prototype, "flag", {
+                get: function () {
+                    return "https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/75/country-4x3/" + this.flagimage + ".png";
+                },
+                enumerable: true,
+                configurable: true
+            });
             return CurrentWeather;
         })();
         domain.CurrentWeather = CurrentWeather;

@@ -1,3 +1,4 @@
+/// <reference path="../../typings/googlemaps/google.maps.d.ts" />
 var app;
 (function (app) {
     var location;
@@ -7,7 +8,8 @@ var app;
                 this.$location = $location;
                 this.$routeParams = $routeParams;
                 this.openWeatherService = openWeatherService;
-                this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName);
+                var mapDiv = document.getElementById("mapForLocation");
+                this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, mapDiv);
             }
             LocationDetailCtrl.$inject = ["$location", "$routeParams", "openWeatherService"];
             return LocationDetailCtrl;

@@ -25,10 +25,13 @@ module app.common {
 			return location;
 		}
 		
-		getCurrentWeather(locationName: string) : app.domain.CurrentWeather {
+		getCurrentWeather(locationName: string, elementForMap : HTMLElement) : app.domain.CurrentWeather {
 			var weather = new app.domain.CurrentWeather();
 			this.$resource("http://api.openweathermap.org/data/2.5/weather?q=" + locationName).get(data => {
+					// Update Weather data
 					weather.name = data.name;
+					weather.longitude = data.coord.lon;
+					weather.latitude = data.coord.lat;
 					weather.weather = new app.domain.Weather(
 						data.main.temp + this.kelvinToCelsiusFactor, 
 						data.main.pressure, 
@@ -36,6 +39,18 @@ module app.common {
 						data.main.temp_min + this.kelvinToCelsiusFactor, 
 						data.main.temp_max + this.kelvinToCelsiusFactor,
 						data.weather[0].icon);
+
+					// Update Google map
+					var opts: google.maps.MapOptions = {
+						center: new google.maps.LatLng(-34.397, 150.644),
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
+						zoom: 8
+					};
+					opts.center.lat = () => weather.latitude;
+					opts.center.lng = () => weather.longitude;
+					
+					var map = new google.maps.Map(elementForMap, opts);
+	
 				});
 			
 			

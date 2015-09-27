@@ -1,3 +1,5 @@
+/// <reference path="../../typings/googlemaps/google.maps.d.ts" />
+
 module app.location {
 	interface ILocationDetailModel {
 		currentWeather : app.domain.CurrentWeather;
@@ -14,7 +16,8 @@ module app.location {
 		constructor(private $location: ng.ILocationService, 
 					private $routeParams : IProductParams,
 					private openWeatherService : app.common.OpenWeatherService) {
-			this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName);
+			var mapDiv = document.getElementById("mapForLocation");
+			this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, mapDiv);
 		}
 	}
 	

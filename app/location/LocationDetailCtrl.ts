@@ -3,6 +3,7 @@
 module app.location {
 	interface ILocationDetailModel {
 		currentWeather : app.domain.CurrentWeather;
+		newLocationName : string;
 	}
 	
 	interface IProductParams extends ng.route.IRouteParamsService {
@@ -11,12 +12,17 @@ module app.location {
 	
 	class LocationDetailCtrl implements ILocationDetailModel {
 		currentWeather : app.domain.CurrentWeather;
+		newLocationName : string;
 		
 		static $inject=["$location", "$routeParams", "openWeatherService"]
 		constructor(private $location: ng.ILocationService, 
 					private $routeParams : IProductParams,
 					private openWeatherService : app.common.OpenWeatherService) {
-			this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, this.OnWeatherFetched);
+			this.LoadLocationData($routeParams.locationName);
+		}
+		
+		LoadLocationData(locationName : string) : void {
+			this.currentWeather = this.openWeatherService.getCurrentWeather(locationName, this.OnWeatherFetched);
 		}
 		
 		private OnWeatherFetched(weather : app.domain.CurrentWeather) {

@@ -8,8 +8,11 @@ var app;
                 this.$location = $location;
                 this.$routeParams = $routeParams;
                 this.openWeatherService = openWeatherService;
-                this.currentWeather = openWeatherService.getCurrentWeather($routeParams.locationName, this.OnWeatherFetched);
+                this.LoadLocationData($routeParams.locationName);
             }
+            LocationDetailCtrl.prototype.LoadLocationData = function (locationName) {
+                this.currentWeather = this.openWeatherService.getCurrentWeather(locationName, this.OnWeatherFetched);
+            };
             LocationDetailCtrl.prototype.OnWeatherFetched = function (weather) {
                 var elementForMap = document.getElementById("mapForLocation");
                 var opts = {

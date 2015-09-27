@@ -1,5 +1,19 @@
-<h1>Weather in {{vm.currentWeather.name}}</h1>
-<br>
+<div class="row">
+	<div class="col-md-6" >
+		<h1>Weather in {{vm.currentWeather.name}}</h1>
+	</div>
+	<div class="col-md-6" >
+		<form class="form-inline" >
+			<p class="text-right">
+				<input type="text" class="form-control" id="inputLocation" placeholder="Other Location" ng-model="vm.newLocationName">
+				<button type="submit" class="btn btn-default" ng-click="vm.LoadLocationData(vm.newLocationName)">Search</button>
+			</p>
+		</form>
+	</div>
+</div>
+
+<br/>
+
 	     
 <div class="row">
 	<div class="col-md-3" >

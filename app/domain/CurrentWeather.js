@@ -4,6 +4,7 @@ var app;
     (function (domain) {
         var CurrentWeather = (function () {
             function CurrentWeather() {
+                this.nearbyWeather = new Array();
             }
             Object.defineProperty(CurrentWeather.prototype, "flag", {
                 get: function () {

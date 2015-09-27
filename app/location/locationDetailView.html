@@ -47,9 +47,9 @@
 			<div class="col-md-3"><img ng-src="{{vm.currentWeather.weather.image}}" alt="Description" /></div>
 	</div>
 	<div class="col-md-6" >
-		<collapsible title="Repos" class="bg-info">
+		<collapsible title="Weather in nearby Cities">
 			<ul>
-				<li ng-repeat="repo in vm.locationObject.repos">{{repo.name}}</li>	
+				<li ng-repeat="weather in vm.currentWeather.nearbyWeather">{{weather.name}}</li>	
 			</ul>
 		</collapsible>
 	</div>

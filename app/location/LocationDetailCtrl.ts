@@ -9,11 +9,11 @@ module app.location {
 	interface IProductParams extends ng.route.IRouteParamsService {
 		locationName: string;
 	}
-	
+
 	class LocationDetailCtrl implements ILocationDetailModel {
 		currentWeather : app.domain.CurrentWeather;
 		newLocationName : string;
-		
+
 		static $inject=["$location", "$routeParams", "openWeatherService"]
 		constructor(private $location: ng.ILocationService, 
 					private $routeParams : IProductParams,

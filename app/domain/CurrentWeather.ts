@@ -6,8 +6,10 @@ module app.domain {
 		latitude : number;
 		weather : app.domain.Weather;
 		mapoptions :  google.maps.MapOptions;
+		nearbyWeather : Array<CurrentWeather>; 
 		
 		constructor() {
+			this.nearbyWeather = new Array<CurrentWeather>();
 		}
 		
 		get flag() : string {

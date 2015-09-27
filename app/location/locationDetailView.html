@@ -1,0 +1,49 @@
+<h1>Weather in {{vm.currentWeather.name}}</h1>
+<br>
+
+<div class="row">
+	<div class="col-md-3" >
+		<div class="row">
+			<div class="col-md-8">Location:</div>
+			<div class="col-md-4">{{vm.currentWeather.name}}</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">Temperature:</div>
+			<div class="col-md-4">{{vm.currentWeather.weather.temp.toFixed(2)}} °C</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">Humidity:</div>
+			<div class="col-md-4">{{vm.currentWeather.weather.humidity.toFixed(2)}} %</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">Pressure:</div>
+			<div class="col-md-4">{{vm.currentWeather.weather.pressure.toFixed(0)}} hPa</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">Min Temperature:</div>
+			<div class="col-md-4">{{vm.currentWeather.weather.temp_min.toFixed(2)}} °C</div>
+		</div>			
+		<div class="row">
+			<div class="col-md-8">Max Temperature:</div>
+			<div class="col-md-4">{{vm.currentWeather.weather.temp_max.toFixed(2)}} °C</div>
+		</div>					
+	</div>
+	<div class="col-md-3" >
+			<div class="col-md-3"><img ng-src="{{vm.currentWeather.weather.image}}" alt="Description" /></div>
+	</div>
+	<div class="col-md-6" >
+		<collapsible title="Repos" class="bg-info">
+			<ul>
+				<li ng-repeat="repo in vm.locationObject.repos">{{repo.name}}</li>	
+			</ul>
+		</collapsible>
+	</div>
+</div>
+<div class="row" style="background: red;">
+ 	<div class="col-md-12" >
+		 
+	</div>
+</div>
+
+
+

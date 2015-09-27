@@ -49,7 +49,7 @@
 	<div class="col-md-6" >
 		<collapsible title="Weather in nearby Cities">
 			<ul>
-				<li ng-repeat="weather in vm.currentWeather.nearbyWeather">{{weather.name}}</li>	
+				<li ng-repeat="weather in vm.currentWeather.nearbyWeather"><a ng-click="vm.LoadLocationData(weather.name)">{{weather.name}}</a></li>	
 			</ul>
 		</collapsible>
 	</div>

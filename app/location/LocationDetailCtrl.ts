@@ -22,7 +22,11 @@ module app.location {
 		}
 		
 		LoadLocationData(locationName : string) : void {
-			this.currentWeather = this.openWeatherService.getCurrentWeather(locationName, this.OnWeatherFetched);
+			this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
+		}
+		
+		LoadLocationDataWithId(id : number) : void {
+			this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
 		}
 		
 		private OnWeatherFetched(weather : app.domain.CurrentWeather) {

@@ -10,9 +10,21 @@ var app;
                 this.kelvinToCelsiusFactor = -272.15;
                 that = this;
             }
-            OpenWeatherService.prototype.getCurrentWeather = function (locationName, onWeatherFetchedCallback) {
+            /**
+             * Gets the current weather by location name.
+             */
+            OpenWeatherService.prototype.ByLocationName = function (locationName, onWeatherFetchedCallback) {
+                return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + this.apiKey, onWeatherFetchedCallback);
+            };
+            /**
+             * Gets the current weather by specific id.
+             */
+            OpenWeatherService.prototype.ById = function (id, onWeatherFetchedCallback) {
+                return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?id=" + id + "&APPID=" + this.apiKey, onWeatherFetchedCallback);
+            };
+            OpenWeatherService.prototype.getCurrentWeather = function (resourceUri, onWeatherFetchedCallback) {
                 var weather = new app.domain.CurrentWeather();
-                this.$resource("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + this.apiKey).get(function (data) {
+                this.$resource(resourceUri).get(function (data) {
                     // Update Weather data
                     that.fillWeatherData(weather, data);
                     that.fillWeatherNearby(weather);
@@ -33,6 +45,7 @@ var app;
             };
             OpenWeatherService.prototype.fillWeatherData = function (weather, data) {
                 weather.name = data.name;
+                weather.id = data.id;
                 weather.flagimage = data.sys.country.toLowerCase();
                 weather.longitude = data.coord.lon;
                 weather.latitude = data.coord.lat;

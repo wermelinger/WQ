@@ -17,8 +17,7 @@ module app {
 		})
 		.otherwise("/search");
 		
-				// use the HTML5 History API & set HTM5 mode true
+		// use the HTML5 History API & set HTM5 mode true (currently disabled, so that the URL can be applied directly)
     	$locationProvider.html5Mode(false);
-		
 	}
 }

@@ -11,7 +11,10 @@ var app;
                 this.LoadLocationData($routeParams.locationName);
             }
             LocationDetailCtrl.prototype.LoadLocationData = function (locationName) {
-                this.currentWeather = this.openWeatherService.getCurrentWeather(locationName, this.OnWeatherFetched);
+                this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
+            };
+            LocationDetailCtrl.prototype.LoadLocationDataWithId = function (id) {
+                this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
             };
             LocationDetailCtrl.prototype.OnWeatherFetched = function (weather) {
                 var elementForMap = document.getElementById("mapForLocation");

@@ -16,7 +16,7 @@ module app.domain {
 			this.icon = icon;
 		}
 		
-		get image() : string {
+		get weatherIcon() : string {
 			return "http://openweathermap.org/img/w/" + this.icon + ".png";
 		}
 	}

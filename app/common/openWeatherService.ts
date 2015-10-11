@@ -1,6 +1,7 @@
 module app.common {
 	interface IOpenWeatherService {
-		getCurrentWeather(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
+		ByLocationName(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
+		ById(id: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
 	}
 
 	var that : OpenWeatherService;
@@ -14,9 +15,23 @@ module app.common {
 			that = this;
 		}
 		
-		getCurrentWeather(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
+		/**
+		 * Gets the current weather by location name.
+		 */
+		ByLocationName(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
+			return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + this.apiKey, onWeatherFetchedCallback)
+		}
+		
+		/**
+		 * Gets the current weather by specific id.
+		 */
+		ById(id: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
+			return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?id=" + id + "&APPID=" + this.apiKey, onWeatherFetchedCallback)
+		}
+		
+		getCurrentWeather(resourceUri : string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
 			var weather = new app.domain.CurrentWeather();
-			this.$resource("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + this.apiKey).get(data => {
+			this.$resource(resourceUri).get(data => {
 					// Update Weather data
 					that.fillWeatherData(weather, data);	
 					that.fillWeatherNearby(weather);
@@ -41,6 +56,7 @@ module app.common {
 		
 		private fillWeatherData(weather : app.domain.CurrentWeather, data : any) {
 			weather.name = data.name;
+			weather.id = data.id;
 			weather.flagimage = data.sys.country.toLowerCase();
 			weather.longitude = data.coord.lon;
 			weather.latitude = data.coord.lat;

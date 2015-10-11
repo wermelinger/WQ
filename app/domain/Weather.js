@@ -11,7 +11,7 @@ var app;
                 this.temp_max = temp_max;
                 this.icon = icon;
             }
-            Object.defineProperty(Weather.prototype, "image", {
+            Object.defineProperty(Weather.prototype, "weatherIcon", {
                 get: function () {
                     return "http://openweathermap.org/img/w/" + this.icon + ".png";
                 },

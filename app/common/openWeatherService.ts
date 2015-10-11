@@ -1,6 +1,7 @@
 module app.common {
 	interface IOpenWeatherService {
 		ByLocationName(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
+		ByCoordinates(latitude: number, longitude: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
 		ById(id: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
 	}
 
@@ -20,6 +21,13 @@ module app.common {
 		 */
 		ByLocationName(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
 			return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + this.apiKey, onWeatherFetchedCallback)
+		}
+		
+		/**
+		 * Gets the current weather by coordinates.
+		 */
+		ByCoordinates(latitude: number, longitude: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
+			return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=" + this.apiKey, onWeatherFetchedCallback)
 		}
 		
 		/**

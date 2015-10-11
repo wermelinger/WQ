@@ -10,6 +10,8 @@ module app.location {
 		locationName: string;
 	}
 
+	var that : LocationDetailCtrl;
+
 	class LocationDetailCtrl implements ILocationDetailModel {
 		currentWeather : app.domain.CurrentWeather;
 		newLocationName : string;
@@ -18,15 +20,20 @@ module app.location {
 		constructor(private $location: ng.ILocationService, 
 					private $routeParams : IProductParams,
 					private openWeatherService : app.common.OpenWeatherService) {
-			this.LoadLocationData($routeParams.locationName);
+			this.LoadLocationDataWithLocationName($routeParams.locationName);
+			that = this;
 		}
 		
-		LoadLocationData(locationName : string) : void {
+		LoadLocationDataWithLocationName(locationName : string) : void {
 			this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
 		}
 		
 		LoadLocationDataWithId(id : number) : void {
 			this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
+		}
+		
+		LoadLocationDataWithCoordinates(latitude : number, longitude : number) : void {
+			this.currentWeather = this.openWeatherService.ByCoordinates(latitude, longitude, this.OnWeatherFetched);
 		}
 		
 		private OnWeatherFetched(weather : app.domain.CurrentWeather) {
@@ -38,6 +45,18 @@ module app.location {
 			};
 
 			var map = new google.maps.Map(elementForMap, opts);
+			
+			var marker = new google.maps.Marker({
+				position: {lat: weather.latitude, lng: weather.longitude},
+				map: map,
+				draggable:true,
+				title: weather.name
+				});
+				google.maps.event.addListener(marker, 'dragend', that.OnDragged);
+		}
+		
+		private OnDragged(mouseEvent : google.maps.MouseEvent) {
+			that.LoadLocationDataWithCoordinates(mouseEvent.latLng.lat(), mouseEvent.latLng.lng());
 		}
 	}
 	

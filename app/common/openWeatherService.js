@@ -17,6 +17,12 @@ var app;
                 return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + this.apiKey, onWeatherFetchedCallback);
             };
             /**
+             * Gets the current weather by coordinates.
+             */
+            OpenWeatherService.prototype.ByCoordinates = function (latitude, longitude, onWeatherFetchedCallback) {
+                return this.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=" + this.apiKey, onWeatherFetchedCallback);
+            };
+            /**
              * Gets the current weather by specific id.
              */
             OpenWeatherService.prototype.ById = function (id, onWeatherFetchedCallback) {

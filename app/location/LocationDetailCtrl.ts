@@ -16,24 +16,32 @@ module app.location {
 		currentWeather : app.domain.CurrentWeather;
 		newLocationName : string;
 
-		static $inject=["$location", "$routeParams", "openWeatherService"]
+		static $inject=["$location", "$routeParams", "openWeatherService", "searchHistory"]
 		constructor(private $location: ng.ILocationService, 
 					private $routeParams : IProductParams,
-					private openWeatherService : app.common.OpenWeatherService) {
+					private openWeatherService : app.common.OpenWeatherService,
+					private searchHistory : app.common.SearchHistory) {
 			this.LoadLocationDataWithLocationName($routeParams.locationName);
 			that = this;
 		}
 		
 		LoadLocationDataWithLocationName(locationName : string) : void {
 			this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
+			this.searchHistory.AddSearch(this.currentWeather.name);
 		}
 		
 		LoadLocationDataWithId(id : number) : void {
 			this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
+			this.searchHistory.AddSearch(this.currentWeather.name);
 		}
 		
 		LoadLocationDataWithCoordinates(latitude : number, longitude : number) : void {
 			this.currentWeather = this.openWeatherService.ByCoordinates(latitude, longitude, this.OnWeatherFetched);
+			this.searchHistory.AddSearch(this.currentWeather.name);
+		}
+		
+		LastSearchNames() : Array<string> {
+			return this.searchHistory.SearchNames;
 		}
 		
 		private OnWeatherFetched(weather : app.domain.CurrentWeather) {

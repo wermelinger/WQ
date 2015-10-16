@@ -46,13 +46,19 @@
 	<div class="col-md-3" >
 			<div class="col-md-3"><img ng-src="{{vm.currentWeather.weather.weatherIcon}}" alt="Description" /></div>
 	</div>
-	<div class="col-md-6" >
+	<div class="col-md-3" >
 		<collapsible title="Weather in nearby Cities">
 			<ul>
 				<li ng-repeat="weather in vm.currentWeather.nearbyWeather"><a ng-click="vm.LoadLocationDataWithId(weather.id)">{{weather.name}}</a></li>	
 			</ul>
 		</collapsible>
 	</div>
+	<div class="col-md-3" >
+		<p>Last lookups</p>
+		<ul>
+			<li ng-repeat="name in vm.LastSearchNames()"><a ng-click="vm.LoadLocationDataWithLocationName(name)">{{name}}</a></li>	
+		</ul>
+	</div>	
 </div>
 <div class="row">
 	&nbsp;

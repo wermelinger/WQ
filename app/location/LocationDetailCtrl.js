@@ -15,18 +15,18 @@ var app;
             }
             LocationDetailCtrl.prototype.LoadLocationDataWithLocationName = function (locationName) {
                 this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
-                this.searchHistory.AddSearch(this.currentWeather.name);
             };
             LocationDetailCtrl.prototype.LoadLocationDataWithId = function (id) {
                 this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
-                this.searchHistory.AddSearch(this.currentWeather.name);
             };
             LocationDetailCtrl.prototype.LoadLocationDataWithCoordinates = function (latitude, longitude) {
                 this.currentWeather = this.openWeatherService.ByCoordinates(latitude, longitude, this.OnWeatherFetched);
-                this.searchHistory.AddSearch(this.currentWeather.name);
             };
             LocationDetailCtrl.prototype.LastSearchNames = function () {
                 return this.searchHistory.SearchNames;
+            };
+            LocationDetailCtrl.prototype.DeleteFromHistory = function (name) {
+                this.searchHistory.Delete(name);
             };
             LocationDetailCtrl.prototype.OnWeatherFetched = function (weather) {
                 var elementForMap = document.getElementById("mapForLocation");
@@ -43,6 +43,7 @@ var app;
                     title: weather.name
                 });
                 google.maps.event.addListener(marker, 'dragend', that.OnDragged);
+                that.searchHistory.AddSearch(weather.name);
             };
             LocationDetailCtrl.prototype.OnDragged = function (mouseEvent) {
                 that.LoadLocationDataWithCoordinates(mouseEvent.latLng.lat(), mouseEvent.latLng.lng());

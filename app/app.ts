@@ -1,5 +1,5 @@
 module app {
-	var main = angular.module("weatherQuery", ["ngRoute", "mycommon"]);
+	var main = angular.module("weatherQuery", ["ngRoute", "CommonComponents"]);
 	main.config(routeConfig);
 	
 	routeConfig.$inject = ["$routeProvider", "$locationProvider"]

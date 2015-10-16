@@ -23,6 +23,6 @@ var app;
             return Collapsible;
         })();
         directives.Collapsible = Collapsible;
-        angular.module("mycommon").directive("collapsible", function () { return new Collapsible(); });
+        angular.module("CommonComponents").directive("collapsible", function () { return new Collapsible(); });
     })(directives = app.directives || (app.directives = {}));
 })(app || (app = {}));

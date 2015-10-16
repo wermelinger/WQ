@@ -56,7 +56,7 @@
 	<div class="col-md-3" >
 		<p>Last lookups</p>
 		<ul>
-			<li ng-repeat="name in vm.LastSearchNames()"><a ng-click="vm.LoadLocationDataWithLocationName(name)">{{name}}</a></li>	
+			<li ng-repeat="searchname in vm.LastSearchNames() | reverse"><a ng-click="vm.LoadLocationDataWithLocationName(searchname)">{{searchname}}</a> <a ng-click="vm.DeleteFromHistory(searchname)">X</a></li>	
 		</ul>
 	</div>	
 </div>

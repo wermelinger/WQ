@@ -61,6 +61,6 @@ var app;
             return OpenWeatherService;
         })();
         common.OpenWeatherService = OpenWeatherService;
-        angular.module("mycommon").service("openWeatherService", OpenWeatherService);
+        angular.module("weatherQuery").service("openWeatherService", OpenWeatherService);
     })(common = app.common || (app.common = {}));
 })(app || (app = {}));

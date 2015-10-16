@@ -27,21 +27,22 @@ module app.location {
 		
 		LoadLocationDataWithLocationName(locationName : string) : void {
 			this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
-			this.searchHistory.AddSearch(this.currentWeather.name);
 		}
 		
 		LoadLocationDataWithId(id : number) : void {
 			this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
-			this.searchHistory.AddSearch(this.currentWeather.name);
 		}
 		
 		LoadLocationDataWithCoordinates(latitude : number, longitude : number) : void {
 			this.currentWeather = this.openWeatherService.ByCoordinates(latitude, longitude, this.OnWeatherFetched);
-			this.searchHistory.AddSearch(this.currentWeather.name);
 		}
 		
 		LastSearchNames() : Array<string> {
 			return this.searchHistory.SearchNames;
+		}
+		
+		DeleteFromHistory(name : string) {
+			this.searchHistory.Delete(name);
 		}
 		
 		private OnWeatherFetched(weather : app.domain.CurrentWeather) {
@@ -61,6 +62,8 @@ module app.location {
 				title: weather.name
 				});
 				google.maps.event.addListener(marker, 'dragend', that.OnDragged);
+				
+			that.searchHistory.AddSearch(weather.name);
 		}
 		
 		private OnDragged(mouseEvent : google.maps.MouseEvent) {

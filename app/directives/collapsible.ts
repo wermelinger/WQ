@@ -21,5 +21,5 @@ module app.directives {
 		}
 	}
 
-	angular.module("mycommon").directive("collapsible", () => new Collapsible());
+	angular.module("CommonComponents").directive("collapsible", () => new Collapsible());
 }

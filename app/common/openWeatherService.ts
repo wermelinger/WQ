@@ -78,5 +78,5 @@ module app.common {
 		}
 	}
 	
-	angular.module("mycommon").service("openWeatherService", OpenWeatherService);
+	angular.module("weatherQuery").service("openWeatherService", OpenWeatherService);
 }

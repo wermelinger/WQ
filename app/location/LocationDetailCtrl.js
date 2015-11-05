@@ -10,23 +10,23 @@ var app;
                 this.$routeParams = $routeParams;
                 this.openWeatherService = openWeatherService;
                 this.searchHistory = searchHistory;
-                this.LoadLocationDataWithLocationName($routeParams.locationName);
                 that = this;
+                that.LoadLocationDataWithLocationName($routeParams.locationName);
             }
             LocationDetailCtrl.prototype.LoadLocationDataWithLocationName = function (locationName) {
-                this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
+                that.currentWeather = that.openWeatherService.ByLocationName(locationName, that.OnWeatherFetched);
             };
             LocationDetailCtrl.prototype.LoadLocationDataWithId = function (id) {
-                this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
+                that.currentWeather = that.openWeatherService.ById(id, that.OnWeatherFetched);
             };
             LocationDetailCtrl.prototype.LoadLocationDataWithCoordinates = function (latitude, longitude) {
-                this.currentWeather = this.openWeatherService.ByCoordinates(latitude, longitude, this.OnWeatherFetched);
+                that.currentWeather = that.openWeatherService.ByCoordinatesTest(latitude, longitude, that.OnWeatherFetched);
             };
             LocationDetailCtrl.prototype.LastSearchNames = function () {
-                return this.searchHistory.SearchNames;
+                return that.searchHistory.SearchNames;
             };
             LocationDetailCtrl.prototype.DeleteFromHistory = function (name) {
-                this.searchHistory.Delete(name);
+                that.searchHistory.Delete(name);
             };
             LocationDetailCtrl.prototype.OnWeatherFetched = function (weather) {
                 var elementForMap = document.getElementById("mapForLocation");
@@ -37,7 +37,7 @@ var app;
                 };
                 var map = new google.maps.Map(elementForMap, opts);
                 var marker = new google.maps.Marker({
-                    position: { lat: weather.latitude, lng: weather.longitude },
+                    position: new google.maps.LatLng(weather.latitude, weather.longitude),
                     map: map,
                     draggable: true,
                     title: weather.name

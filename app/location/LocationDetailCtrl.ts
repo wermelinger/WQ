@@ -21,30 +21,30 @@ module app.location {
 					private $routeParams : IProductParams,
 					private openWeatherService : app.common.OpenWeatherService,
 					private searchHistory : app.common.SearchHistory) {
-			this.LoadLocationDataWithLocationName($routeParams.locationName);
 			that = this;
+			that.LoadLocationDataWithLocationName($routeParams.locationName);
 		}
 		
 		LoadLocationDataWithLocationName(locationName : string) : void {
-			this.currentWeather = this.openWeatherService.ByLocationName(locationName, this.OnWeatherFetched);
+			that.currentWeather = that.openWeatherService.ByLocationName(locationName, that.OnWeatherFetched);
 		}
 		
 		LoadLocationDataWithId(id : number) : void {
-			this.currentWeather = this.openWeatherService.ById(id, this.OnWeatherFetched);
+			that.currentWeather = that.openWeatherService.ById(id, that.OnWeatherFetched);
 		}
 		
 		LoadLocationDataWithCoordinates(latitude : number, longitude : number) : void {
-			this.currentWeather = this.openWeatherService.ByCoordinates(latitude, longitude, this.OnWeatherFetched);
+			that.currentWeather = that.openWeatherService.ByCoordinatesTest(latitude, longitude, that.OnWeatherFetched);
 		}
 		
 		LastSearchNames() : Array<string> {
-			return this.searchHistory.SearchNames;
+			return that.searchHistory.SearchNames;
 		}
 		
 		DeleteFromHistory(name : string) {
-			this.searchHistory.Delete(name);
+			that.searchHistory.Delete(name);
 		}
-		
+
 		private OnWeatherFetched(weather : app.domain.CurrentWeather) {
 			var elementForMap = document.getElementById("mapForLocation");
 			var opts: google.maps.MapOptions = {
@@ -54,9 +54,9 @@ module app.location {
 			};
 
 			var map = new google.maps.Map(elementForMap, opts);
-			
-			var marker = new google.maps.Marker({
-				position: {lat: weather.latitude, lng: weather.longitude},
+			var marker = new google.maps.Marker(
+			{
+				position: new google.maps.LatLng(weather.latitude, weather.longitude),
 				map: map,
 				draggable:true,
 				title: weather.name
@@ -71,5 +71,5 @@ module app.location {
 		}
 	}
 	
-	angular.module("weatherQuery").controller("LocationDetailCtrl", LocationDetailCtrl);
+	angular.module("weatherQuery").controller("LocationDetailCtrl",  LocationDetailCtrl);
 }

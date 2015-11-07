@@ -2,7 +2,7 @@ module app.common {
 	/**
 	 * Reverse filter for lookups.
 	 */
-	export function reverseFilter()
+	export function ReverseFilter()
     {
 		return function(items : Array<string>) {
 			var reversed = new Array<string>();
@@ -14,5 +14,5 @@ module app.common {
     }
 	
 	angular.module("CommonComponents", ["ngResource"]);
-	angular.module("CommonComponents").filter("reverse", reverseFilter);
+	angular.module("CommonComponents").filter("reverse", ReverseFilter);
 }

@@ -1,14 +1,19 @@
-module app.common {
+module app.location {
 	interface ISearchHistory {
 		AddSearch(name : string);
 		Delete(name : string);
 		SearchNames : Array<string>;
 	}
 	
+	var that : SearchHistory;
+	
 	export class SearchHistory implements ISearchHistory {
 		
-		constructor() {
+		static $inject = ["$rootScope", "LocationEventService"]
+		constructor($rootScope : ng.IScope, locationEventService : app.location.LocationEventService) {
+			that = this;
 			this.SearchNames = new Array<string>();
+			locationEventService.SubscribeNewLocationFetched($rootScope, that.OnWeatherFetched);
 		}
 		
 		/**
@@ -33,7 +38,11 @@ module app.common {
 			this.Delete(name);
 			this.SearchNames.push(name);
 		}
+		
+		private OnWeatherFetched(event, weather : app.domain.CurrentWeather) {
+			that.AddSearch(weather.name);
+		}
 	}
 	
-	angular.module("CommonComponents").service("searchHistory", SearchHistory);
+	angular.module("CommonComponents").service("SearchHistory", SearchHistory);
 }

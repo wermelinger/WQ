@@ -1,10 +1,13 @@
 var app;
 (function (app) {
-    var common;
-    (function (common) {
+    var location;
+    (function (location) {
+        var that;
         var SearchHistory = (function () {
-            function SearchHistory() {
+            function SearchHistory($rootScope, locationEventService) {
+                that = this;
                 this.SearchNames = new Array();
+                locationEventService.SubscribeNewLocationFetched($rootScope, that.OnWeatherFetched);
             }
             /**
              * Delete the given search-name from history, if present.
@@ -22,9 +25,13 @@ var app;
                 this.Delete(name);
                 this.SearchNames.push(name);
             };
+            SearchHistory.prototype.OnWeatherFetched = function (event, weather) {
+                that.AddSearch(weather.name);
+            };
+            SearchHistory.$inject = ["$rootScope", "LocationEventService"];
             return SearchHistory;
         })();
-        common.SearchHistory = SearchHistory;
-        angular.module("CommonComponents").service("searchHistory", SearchHistory);
-    })(common = app.common || (app.common = {}));
+        location.SearchHistory = SearchHistory;
+        angular.module("CommonComponents").service("SearchHistory", SearchHistory);
+    })(location = app.location || (app.location = {}));
 })(app || (app = {}));

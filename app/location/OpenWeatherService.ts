@@ -1,7 +1,7 @@
 module app.common {
 	interface IOpenWeatherService {
 		ByLocationName(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
-		ByCoordinatesTest(latitude: number, longitude: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
+		ByCoordinates(latitude: number, longitude: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
 		ById(id: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;
 	}
 
@@ -11,33 +11,34 @@ module app.common {
 		private apiKey = "15185ba4fcaa79b6600788874db6ca0a";
 		private kelvinToCelsiusFactor = -272.15;
 		
-		static $inject = ["$resource"]
-		constructor(private $resource : ng.resource.IResourceService) {
+		static $inject = ["$resource", "LocationEventService"]
+		constructor(private $resource : ng.resource.IResourceService,
+					private locationEventService : app.location.LocationEventService) {
 			that = this;
 		}
 		
 		/**
 		 * Gets the current weather by location name.
 		 */
-		ByLocationName(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
-			return that.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + that.apiKey, onWeatherFetchedCallback)
+		ByLocationName(locationName: string) : app.domain.CurrentWeather {
+			return that.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?q=" + locationName + "&APPID=" + that.apiKey)
 		}
 		
 		/**
 		 * Gets the current weather by coordinates.
 		 */
-		ByCoordinatesTest(latitude: number, longitude: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
-			return that.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=" + that.apiKey, onWeatherFetchedCallback)
+		ByCoordinates(latitude: number, longitude: number) : app.domain.CurrentWeather {
+			return that.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=" + that.apiKey)
 		}
 		
 		/**
 		 * Gets the current weather by specific id.
 		 */
-		ById(id: number, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
-			return that.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?id=" + id + "&APPID=" + that.apiKey, onWeatherFetchedCallback)
+		ById(id: number) : app.domain.CurrentWeather {
+			return that.getCurrentWeather("http://api.openweathermap.org/data/2.5/weather?id=" + id + "&APPID=" + that.apiKey)
 		}
 		
-		getCurrentWeather(resourceUri : string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather {
+		private getCurrentWeather(resourceUri : string) : app.domain.CurrentWeather {
 			var weather = new app.domain.CurrentWeather();
 			that.$resource(resourceUri).get(data => {
 					// Update Weather data
@@ -45,7 +46,7 @@ module app.common {
 					that.fillWeatherNearby(weather);
 
 					// Notify callback
-					onWeatherFetchedCallback(weather);
+					that.locationEventService.NotifyNewLocationFetched(weather);
 				});
 
 			return weather;
@@ -78,5 +79,5 @@ module app.common {
 		}
 	}
 	
-	angular.module("weatherQuery").service("openWeatherService", OpenWeatherService);
+	angular.module("weatherQuery").service("OpenWeatherService", OpenWeatherService);
 }

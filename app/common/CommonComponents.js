@@ -5,7 +5,7 @@ var app;
         /**
          * Reverse filter for lookups.
          */
-        function reverseFilter() {
+        function ReverseFilter() {
             return function (items) {
                 var reversed = new Array();
                 for (var i = items.length - 1; i >= 0; i--) {
@@ -14,8 +14,8 @@ var app;
                 return reversed;
             };
         }
-        common.reverseFilter = reverseFilter;
+        common.ReverseFilter = ReverseFilter;
         angular.module("CommonComponents", ["ngResource"]);
-        angular.module("CommonComponents").filter("reverse", reverseFilter);
+        angular.module("CommonComponents").filter("reverse", ReverseFilter);
     })(common = app.common || (app.common = {}));
 })(app || (app = {}));

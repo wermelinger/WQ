@@ -15,6 +15,6 @@ module app.search {
 			this.$location.path("/location/" + this.locationName);
 		}
 	}
-	
+
 	angular.module("weatherQuery").controller("LocationSearchCtrl", LocationSearchCtrl);
 }

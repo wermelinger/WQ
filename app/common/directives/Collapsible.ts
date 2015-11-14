@@ -19,7 +19,15 @@ module app.directives {
 			
 			return directive;
 		}
+		
+		static factory(): ng.IDirectiveFactory {
+			//Create factory function which when invoked with dependencies by
+			//angular will return newed up instance passing the timeout argument
+			var directive: ng.IDirectiveFactory = 
+				() => new Collapsible();
+			return directive;
+    	}
 	}
 
-	angular.module("CommonComponents").directive("collapsible", Collapsible);
+	angular.module("CommonComponents").directive("collapsible", Collapsible.factory());
 }

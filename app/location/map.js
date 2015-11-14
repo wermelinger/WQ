@@ -13,7 +13,7 @@ var app;
                 var directive = {};
                 directive.restrict = "E";
                 directive.replace = true;
-                directive.template = "<div id='" + Map.mapId + "' style='height:" + Map.height + "px;'></div>";
+                directive.template = "<div id='" + Map.mapId + "' style='height:{{height}}px;'></div>";
                 directive.controller = function ($scope) {
                     locationEventService.SubscribeNewLocationFetched($scope, function (event, weather) {
                         var elementForMap = document.getElementById(Map.mapId);
@@ -35,7 +35,7 @@ var app;
                 };
                 directive.transclude = false;
                 directive.scope = {
-                    title: "@"
+                    height: "@"
                 };
                 that = this;
                 return directive;
@@ -51,8 +51,7 @@ var app;
                 directive.$inject = ["LocationEventService"];
                 return directive;
             };
-            Map.mapId = ";";
-            Map.height = 300;
+            Map.mapId = "mapElement";
             Map.$inject = ["LocationEventService"];
             return Map;
         })();

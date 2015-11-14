@@ -8,15 +8,14 @@ module app.directives {
 	 */
 	export class Map implements ng.IDirective {
 		
-		private static mapId = ";";
-		private static height = 300;
+		private static mapId = "mapElement";
 		
 		static $inject = ["LocationEventService"]
 		constructor(private locationEventService : app.location.LocationEventService) {
 			var directive : ng.IDirective = {};
 			directive.restrict = "E";
 			directive.replace = true;
-			directive.template = "<div id='" + Map.mapId + "' style='height:" + Map.height + "px;'></div>";
+			directive.template = "<div id='" + Map.mapId + "' style='height:{{height}}px;'></div>";
 			directive.controller = function($scope : ng.IScope) {
 				locationEventService.SubscribeNewLocationFetched($scope, function(event, weather : app.domain.CurrentWeather) {
 					var elementForMap = document.getElementById(Map.mapId);
@@ -42,7 +41,7 @@ module app.directives {
 			};
 			directive.transclude = false;
 			directive.scope = {
-				title : "@"
+				height : "@"
 			};
 			
 			that = this;

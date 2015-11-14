@@ -1,3 +1,6 @@
+/// <reference path="../domain/Weather.ts" />
+/// <reference path="../domain/CurrentWeather.ts" />
+
 module app.common {
 	interface IOpenWeatherService {
 		ByLocationName(locationName: string, onWeatherFetchedCallback : (weather : app.domain.CurrentWeather) => void) : app.domain.CurrentWeather;

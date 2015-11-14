@@ -1,3 +1,5 @@
+/// <reference path="Weather.ts" />
+
 module app.domain {
 	export class CurrentWeather {
 		name : string;
@@ -14,7 +16,14 @@ module app.domain {
 		}
 		
 		get flagIcon() : string {
-			return "https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/75/country-4x3/" + this.flagimage + ".png";
+			if (this.flagimage == null)
+			{
+				return "app/location/unknown.png";
+			}
+			else
+			{
+				return "https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/75/country-4x3/" + this.flagimage + ".png";	
+			}
 		}
 	}
 }

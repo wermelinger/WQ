@@ -1,3 +1,4 @@
+/// <reference path="Weather.ts" />
 var app;
 (function (app) {
     var domain;
@@ -8,7 +9,12 @@ var app;
             }
             Object.defineProperty(CurrentWeather.prototype, "flagIcon", {
                 get: function () {
-                    return "https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/75/country-4x3/" + this.flagimage + ".png";
+                    if (this.flagimage == null) {
+                        return "app/location/unknown.png";
+                    }
+                    else {
+                        return "https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/75/country-4x3/" + this.flagimage + ".png";
+                    }
                 },
                 enumerable: true,
                 configurable: true

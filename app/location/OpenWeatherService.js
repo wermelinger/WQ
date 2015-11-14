@@ -1,3 +1,5 @@
+/// <reference path="../domain/Weather.ts" />
+/// <reference path="../domain/CurrentWeather.ts" />
 var app;
 (function (app) {
     var common;

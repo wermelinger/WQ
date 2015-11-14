@@ -13,6 +13,6 @@ describe("Current weather flag-icon", function () {
     });
     it("should present unknown image if none is defined", function () {
         // Act & Assert
-        expect(currentWeather.flagIcon).toBe("unknown.png");
+        expect(currentWeather.flagIcon).toBe("app/location/unknown.png");
     });
 });

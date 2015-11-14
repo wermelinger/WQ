@@ -12,31 +12,58 @@ module app.location {
 		static $inject = ["$rootScope", "LocationEventService"]
 		constructor($rootScope : ng.IScope, locationEventService : app.location.LocationEventService) {
 			that = this;
-			this.SearchNames = new Array<string>();
 			locationEventService.SubscribeNewLocationFetched($rootScope, that.OnWeatherFetched);
 		}
 		
 		/**
 		 * Gets the search history.
 		 */
-		SearchNames : Array<string> 
+		get SearchNames() : Array<string> {
+			return this.GetSearchHistory();
+		} 
 		
 		/**
 		 * Delete the given search-name from history, if present.
 		 */
 		Delete(name : string) {
-			var existingIndex = this.SearchNames.indexOf(name);
-			if (existingIndex > -1) {
-				this.SearchNames.splice(existingIndex, 1);
-			}
+			var searchHistory = this.GetSearchHistory();
+			this.DeleteItem(name, searchHistory);
+			this.SaveSearchHistory(searchHistory);
 		}
 		
 		/**
 		 * Adds a search-name to the history.
 		 */
 		AddSearch(name : string) : void {
-			this.Delete(name);
-			this.SearchNames.push(name);
+			var searchHistory = this.GetSearchHistory();
+			this.DeleteItem(name, searchHistory);
+			searchHistory.push(name);
+			this.SaveSearchHistory(searchHistory);
+		}
+		
+		private DeleteItem(name : string, list : Array<string>) {
+			var existingIndex = list.indexOf(name);
+			if (existingIndex > -1) {
+				list.splice(existingIndex, 1);
+			}
+		}
+		
+		private GetSearchHistory() : Array<string> {
+			var searchHistory : Array<string>;
+			var searchHistoryData = sessionStorage.getItem("searchHistory")
+			if (searchHistoryData == null) {
+				searchHistory = new Array<string>();
+				sessionStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+			}
+			else {
+				searchHistory = JSON.parse(searchHistoryData);
+			}
+			
+			return searchHistory;
+		}
+		
+		private SaveSearchHistory(searchHistory : Array<string>) {
+			sessionStorage.setItem("searchHistory", JSON.stringify(searchHistory))
 		}
 		
 		private OnWeatherFetched(event, weather : app.domain.CurrentWeather) {

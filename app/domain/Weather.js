@@ -18,6 +18,10 @@ var app;
                 enumerable: true,
                 configurable: true
             });
+            Weather.parse = function (data) {
+                return new app.domain.Weather(data.main.temp + Weather.kelvinToCelsiusFactor, data.main.pressure, data.main.humidity, data.main.temp_min + Weather.kelvinToCelsiusFactor, data.main.temp_max + Weather.kelvinToCelsiusFactor, data.weather[0].icon);
+            };
+            Weather.kelvinToCelsiusFactor = -272.15;
             return Weather;
         })();
         domain.Weather = Weather;

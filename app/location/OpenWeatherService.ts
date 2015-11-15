@@ -12,7 +12,6 @@ module app.common {
 
 	export class OpenWeatherService implements IOpenWeatherService {
 		private apiKey = "15185ba4fcaa79b6600788874db6ca0a";
-		private kelvinToCelsiusFactor = -272.15;
 		
 		static $inject = ["$resource", "LocationEventService"]
 		constructor(private $resource : ng.resource.IResourceService,
@@ -43,15 +42,17 @@ module app.common {
 		
 		private getCurrentWeather(resourceUri : string) : app.domain.CurrentWeather {
 			var weather = new app.domain.CurrentWeather();
-			that.$resource(resourceUri).get(data => {
-					// Update Weather data
-					that.fillWeatherData(weather, data);	
-					that.fillWeatherNearby(weather);
-
-					// Notify callback
-					that.locationEventService.NotifyNewLocationFetched(weather);
-				});
-
+			that.$resource(resourceUri).get().$promise
+			.then(data => {
+				// Update Weather data
+				that.fillWeatherData(weather, data);
+			}).then(data => {
+				that.fillWeatherNearby(weather);
+			}).then(data => {
+				// Notify callback
+				that.locationEventService.NotifyNewLocationFetched(weather);
+			});;
+	
 			return weather;
 		}
 		
@@ -72,13 +73,7 @@ module app.common {
 			weather.flagimage = data.sys.country.toLowerCase();
 			weather.longitude = data.coord.lon;
 			weather.latitude = data.coord.lat;
-			weather.weather = new app.domain.Weather(
-				data.main.temp + that.kelvinToCelsiusFactor, 
-				data.main.pressure, 
-				data.main.humidity, 
-				data.main.temp_min + that.kelvinToCelsiusFactor, 
-				data.main.temp_max + that.kelvinToCelsiusFactor,
-				data.weather[0].icon);
+			weather.weather = app.domain.Weather.parse(data);
 		}
 	}
 	

@@ -10,7 +10,6 @@ var app;
                 this.$resource = $resource;
                 this.locationEventService = locationEventService;
                 this.apiKey = "15185ba4fcaa79b6600788874db6ca0a";
-                this.kelvinToCelsiusFactor = -272.15;
                 that = this;
             }
             /**
@@ -33,13 +32,17 @@ var app;
             };
             OpenWeatherService.prototype.getCurrentWeather = function (resourceUri) {
                 var weather = new app.domain.CurrentWeather();
-                that.$resource(resourceUri).get(function (data) {
+                that.$resource(resourceUri).get().$promise
+                    .then(function (data) {
                     // Update Weather data
                     that.fillWeatherData(weather, data);
+                }).then(function (data) {
                     that.fillWeatherNearby(weather);
+                }).then(function (data) {
                     // Notify callback
                     that.locationEventService.NotifyNewLocationFetched(weather);
                 });
+                ;
                 return weather;
             };
             OpenWeatherService.prototype.fillWeatherNearby = function (weather) {
@@ -58,7 +61,7 @@ var app;
                 weather.flagimage = data.sys.country.toLowerCase();
                 weather.longitude = data.coord.lon;
                 weather.latitude = data.coord.lat;
-                weather.weather = new app.domain.Weather(data.main.temp + that.kelvinToCelsiusFactor, data.main.pressure, data.main.humidity, data.main.temp_min + that.kelvinToCelsiusFactor, data.main.temp_max + that.kelvinToCelsiusFactor, data.weather[0].icon);
+                weather.weather = app.domain.Weather.parse(data);
             };
             OpenWeatherService.$inject = ["$resource", "LocationEventService"];
             return OpenWeatherService;

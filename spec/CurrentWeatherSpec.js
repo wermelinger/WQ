@@ -1,8 +1,7 @@
 /// <reference path="../app/domain/CurrentWeather.ts" />
-// import M = require('../app/domain/CurrentWeather');
 describe("Current weather flag-icon", function () {
     var currentWeather;
-    beforeEach(function (angular) {
+    beforeEach(function () {
         currentWeather = new app.domain.CurrentWeather();
     });
     it("should concatenate correct url", function () {

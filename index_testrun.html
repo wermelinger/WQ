@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Style sheets -->
+   		<link href="styles/css/bootstrap.css" rel="stylesheet" />
+		    <base href="/">
+	</head>
+		
+	<body ng-app="weatherQuery">
+		<nav>
+			<div class="navbar navbar-default"> 
+				<div class="navbar-brand">Query the weather</div>
+			</div>
+		</nav>
+		
+		<div class="container">
+        	<ng-view></ng-view>
+	    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7PyL6Hpyg_qjpl875QzwKwSO7xC-qEKM"></script>
+
+		<!-- Library Scripts -->
+		<script src="scripts/angular.js"></script>
+		<script src="scripts/angular-resource.js"></script>
+		<script src="scripts/angular-mocks.js"></script>
+		<script src="scripts/angular-route.js"></script>
+			
+		<!-- bower components -->
+		<script src="/bower_components/angular-tooltip/dist/tooltip.js"></script>	
+		
+		<!-- Application -->
+		<script src="app/app.js" ></script>
+		
+		<!-- Common stuff -->
+		<script src="app/common/CommonComponents.js" ></script>
+		<script src="app/common/directives/Collapsible.js" ></script>
+		
+		<!-- Domain Classes -->
+		<script src="app/domain/Weather.js" ></script>
+		<script src="app/domain/CurrentWeather.js" ></script>
+
+		<!-- First Search -->
+		<script src="app/search/LocationSearchCtrl.js" ></script>
+		
+		<!-- Location-Detail (Single-Page) -->
+    	<script src="app/location/OpenWeatherService.js" ></script>
+		<script src="app/location/SearchHistory.js" ></script>
+		<script src="app/location/LocationEventService.js" ></script>
+		<script src="app/location/LocationDetailCtrl.js" ></script>
+		<script src="app/location/Map.js" ></script>
+        
+        <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-2.4.0/jasmine_favicon.png">
+        <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-2.4.0/jasmine.css">
+
+        <script type="text/javascript" src="jasmine/lib/jasmine-2.4.0/jasmine.js"></script>
+        <script type="text/javascript" src="jasmine/lib/jasmine-2.4.0/jasmine-html.js"></script>
+        <script type="text/javascript" src="jasmine/lib/jasmine-2.4.0/boot.js"></script>
+    
+        <script src="spec/WeatherSpec.js" ></script>
+        <script src="spec/CurrentWeatherSpec.js" ></script>
+        		
+	</body>
+</html>

@@ -1,11 +1,10 @@
 /// <reference path="../app/domain/CurrentWeather.ts" />
-// import M = require('../app/domain/CurrentWeather');
 
 describe("Current weather flag-icon", () => {
         
         var currentWeather : app.domain.CurrentWeather;
 
-        beforeEach(function(angular) {
+        beforeEach(() => {
                 currentWeather = new app.domain.CurrentWeather();
         });
         
